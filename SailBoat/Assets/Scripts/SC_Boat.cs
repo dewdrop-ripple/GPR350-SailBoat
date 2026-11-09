@@ -3,25 +3,11 @@ using UnityEngine;
 
 public class Boat : MonoBehaviour
 {
-    private Vector3 mLinearVelocity = Vector3.zero;
-    private Vector3 mAngularVelocity = Vector3.zero;
-    private Vector3 mLinearAcceleration = Vector3.zero;
-    private Vector3 mAngularAcceleration = Vector3.zero;
-
-    [SerializeField] private Vector3 mContantAcceleration;
-
-    private Vector3 mForceAccum = Vector3.zero;
-    private Vector3 mTorqueAccum = Vector3.zero;
-
-    [SerializeField] private float mMass;
-    [SerializeField] private float mLinearDamping;
-    [SerializeField] private float mAngularDamping;
-    [SerializeField] private GameObject mCenterOfMass;
-
     [SerializeField] private GameObject mBase;
     [SerializeField] private GameObject mSail;
 
     private Collider mCollider;
+    private Rigidbody mRigidbody;
 
     [SerializeField] private List<ForceGenerator> mForces;
 
@@ -34,12 +20,16 @@ public class Boat : MonoBehaviour
     private void Start()
     {
         mCollider = GetComponent<Collider>();
+        mRigidbody = GetComponent<Rigidbody>();
         mWindManager = FindAnyObjectByType<WindManager>();
     }
 
     private void FixedUpdate()
     {
-        
+        for (int i = 0; i < mForces.Count; i++)
+        {
+            mForces[i].GenerateForce(this);
+        }
     }
 
 
@@ -56,55 +46,38 @@ public class Boat : MonoBehaviour
     // ----------------------------
     // MATH
 
-    private void Integrate(float dt)
-    {
-
-    }
-
     public void AddForce(Vector3 force)
     {
-
+        mRigidbody.AddForce(force); 
     }
 
     public void AddTorque(Vector3 force)
     {
-
+        mRigidbody.AddTorque(force);
     }
 
     public void AddForceAtPoint(Vector3 force, Vector3 localPoint)
     {
-
+        mRigidbody.AddForceAtPosition(force, localPoint);
     }
-
-    private void ClearAccumulators()
-    {
-
-    }
-
 
     // ----------------------------
     // UTILITY
 
-    public Vector3 GetLinearVelocity() { return mLinearVelocity; }
-    public Vector3 GetAngularVelocity() { return mAngularVelocity; }
-    public Vector3 GetLinearAcceleration() { return mLinearAcceleration; }
-    public Vector3 GetAngularAcceleration() { return mAngularAcceleration; }
-    public Vector3 GetConstantAcceleration() { return mContantAcceleration; }
+    public Vector3 GetLinearVelocity() { return mRigidbody.linearVelocity; }
+    public Vector3 GetAngularVelocity() { return mRigidbody.angularVelocity; }
 
-    public float GetMass() { return mMass; }
+    public Vector3 GetConstantAcceleration() { return mRigidbody.gr}
 
-    public float GetLinearDamping() { return mLinearDamping; }
-    public float GetAngularDamping() { return mAngularDamping; }
+    public float GetMass() { return mRigidbody.mass; }
 
-    public Vector3 GetCenterOfMass() { return mCenterOfMass.transform.position; }
+    public float GetLinearDamping() { return mRigidbody.linearDamping; }
+    public float GetAngularDamping() { return mRigidbody.angularDamping; }
 
     public Quaternion GetBaseRotation() { return mBase.transform.rotation; }
     public Quaternion GetSailRoatation() { return mSail.transform.rotation; }
 
-    public Matrix4x4 GetInverseInertiaTensorWorld()
-    {
-        return Matrix4x4.zero;
-    }
+    public Vector3 GetInertiaTensor() { return mRigidbody.inertiaTensor; }
 
     public float GetVolume() { return mCollider.transform.lossyScale.x * mCollider.transform.lossyScale.y * mCollider.transform.lossyScale.z; }
 }
