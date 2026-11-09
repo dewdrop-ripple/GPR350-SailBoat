@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Utilities;
@@ -45,6 +46,9 @@ public class Boat : MonoBehaviour
         mSailCW = InputSystem.actions.FindAction("RotateSailCW", throwIfNotFound: true);
         mSailCCW = InputSystem.actions.FindAction("RotateSailCCW", throwIfNotFound: true);
         mLookAction = InputSystem.actions.FindAction("Look", throwIfNotFound: true);
+
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
     private void FixedUpdate()
@@ -101,12 +105,12 @@ public class Boat : MonoBehaviour
 
     public void AddTorque(Vector3 force)
     {
-        //mRigidbody.AddTorque(force);
+        mRigidbody.AddTorque(force);
     }
 
     public void AddForceAtPoint(Vector3 force, Vector3 worldPoint)
     {
-        //mRigidbody.AddForceAtPosition(force, worldPoint, ForceMode.Force);
+        mRigidbody.AddForceAtPosition(force, worldPoint, ForceMode.Force);
     }
 
     // ----------------------------
