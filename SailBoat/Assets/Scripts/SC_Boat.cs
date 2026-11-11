@@ -9,7 +9,7 @@ public class Boat : MonoBehaviour
 {
     [SerializeField] private GameObject mBase, mSail;
 
-    private Collider mCollider;
+    private BoxCollider mCollider;
     private Rigidbody mRigidbody;
 
     [SerializeField] private List<ForceGenerator> mForces;
@@ -35,7 +35,7 @@ public class Boat : MonoBehaviour
 
     private void Start()
     {
-        mCollider = GetComponent<Collider>();
+        mCollider = GetComponentInChildren<BoxCollider>();
         mRigidbody = GetComponent<Rigidbody>();
 
         mBoatCW = InputSystem.actions.FindAction("RotateBoatCW", throwIfNotFound: true);
@@ -135,4 +135,7 @@ public class Boat : MonoBehaviour
 
     public Vector3 GetForwardVector() { return transform.forward; }
     public Vector3 GetSailNormal() { return mSail.transform.right; }
+
+    public Vector3 GetPointVelocity(Vector3 worldPoint) { return mRigidbody.GetPointVelocity(worldPoint); }
+    public BoxCollider GetHullCollider() { return mCollider; }
 }
