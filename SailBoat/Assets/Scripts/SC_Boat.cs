@@ -56,6 +56,9 @@ public class Boat : MonoBehaviour
         {
             mForces[i].GenerateForce(this);
         }
+
+
+        Debug.DrawLine(mSail.transform.position + (Vector3.up * 5), mSail.transform.position + GetSailNormal() + (Vector3.up * 5));
     }
 
 
