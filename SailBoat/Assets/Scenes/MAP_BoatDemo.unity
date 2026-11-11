@@ -3461,6 +3461,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: PR_Boat
       objectReference: {fileID: 0}
+    - target: {fileID: 7558550253812719547, guid: 8b1668887b7e710458b282dd1d2f0f39, type: 3}
+      propertyPath: mForces.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7558550253812719547, guid: 8b1668887b7e710458b282dd1d2f0f39, type: 3}
+      propertyPath: 'mForces.Array.data[2]'
+      value: 
+      objectReference: {fileID: 2490601434707192607}
     - target: {fileID: 8393881063212883920, guid: 8b1668887b7e710458b282dd1d2f0f39, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -3506,6 +3514,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8b1668887b7e710458b282dd1d2f0f39, type: 3}
+--- !u!114 &2490601434707192607 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3540075804120624744, guid: 8b1668887b7e710458b282dd1d2f0f39, type: 3}
+  m_PrefabInstance: {fileID: 2490601434707192606}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5679fb32f3d4e2242b2e20963b9d7650, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SailForce
 --- !u!1001 &4857988409600124059
 PrefabInstance:
   m_ObjectHideFlags: 0
