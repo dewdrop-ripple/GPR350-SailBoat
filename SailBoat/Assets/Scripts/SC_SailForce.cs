@@ -56,7 +56,7 @@ public class SailForce : ForceGenerator
         Vector3 boatDirection = mAttachedBoat.GetForwardVector();
         Vector3 perpDirection = Vector3.Cross(boatDirection, Vector3.Cross(boatDirection, actualForce));
 
-        Vector3 forwardMovement = Vector3.Project(actualForce, boatDirection);
+        Vector3 forwardMovement = Vector3.Project(actualForce, boatDirection) * 2;
         Vector3 sideMovement = Vector3.Project(actualForce, forwardMovement) * mKeelResistance;
 
         mCurrentForce = forwardMovement + sideMovement;
