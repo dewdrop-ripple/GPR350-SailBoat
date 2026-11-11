@@ -14,8 +14,6 @@ public class Boat : MonoBehaviour
 
     [SerializeField] private List<ForceGenerator> mForces;
 
-    private WindManager mWindManager;
-
     // Input
     private InputAction mBoatCW, mBoatCCW, mSailCW, mSailCCW;
     private InputAction mLookAction;
@@ -39,7 +37,6 @@ public class Boat : MonoBehaviour
     {
         mCollider = GetComponent<Collider>();
         mRigidbody = GetComponent<Rigidbody>();
-        mWindManager = FindAnyObjectByType<WindManager>();
 
         mBoatCW = InputSystem.actions.FindAction("RotateBoatCW", throwIfNotFound: true);
         mBoatCCW = InputSystem.actions.FindAction("RotateBoatCCW", throwIfNotFound: true);
