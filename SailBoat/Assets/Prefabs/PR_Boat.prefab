@@ -431,6 +431,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SailForce
   mLiftCoefficient: 0.95
   mDragCoefficient: 0.95
+  mKeelResistance: 0.8
+  mDebug: 1
 --- !u!1 &6836267293244068639
 GameObject:
   m_ObjectHideFlags: 0
