@@ -2987,8 +2987,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4eb6bc46a6140ad46ab36ef11317dc93, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Water
-  mSize: 400
-  mResolution: 255
+  mSize: 200
+  mResolution: 100
+  mDebugVertices: 0
+  mWaves:
+  - direction: {x: 1, y: 0}
+    steepness: 0.12
+    wavelength: 36
+  - direction: {x: 0.8, y: -0.5}
+    steepness: 0.13
+    wavelength: 26
+  - direction: {x: 1, y: 1}
+    steepness: 0.13
+    wavelength: 18
+  - direction: {x: 0.3, y: 1}
+    steepness: 0.12
+    wavelength: 13
+  - direction: {x: 1, y: -1}
+    steepness: 0.11
+    wavelength: 10
+  - direction: {x: -1, y: 0.5}
+    steepness: 0.09
+    wavelength: 8
+  - direction: {x: 1, y: 0.6}
+    steepness: 0.08
+    wavelength: 6.5
+  - direction: {x: -0.5, y: -1}
+    steepness: 0.07
+    wavelength: 5
 --- !u!1 &1919650522
 GameObject:
   m_ObjectHideFlags: 0
@@ -3590,6 +3616,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PR_Boat
       objectReference: {fileID: 0}
+    - target: {fileID: 7496922531949669760, guid: 8b1668887b7e710458b282dd1d2f0f39, type: 3}
+      propertyPath: mDrag.y
+      value: 2000
+      objectReference: {fileID: 0}
     - target: {fileID: 7558550253812719547, guid: 8b1668887b7e710458b282dd1d2f0f39, type: 3}
       propertyPath: 'mForces.Array.data[2]'
       value: 
@@ -3716,6 +3746,10 @@ PrefabInstance:
     - target: {fileID: 4575144531485845897, guid: daea282b7c281ae44a74bf6afd4949ca, type: 3}
       propertyPath: m_Name
       value: PR_WindManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 6195804731146458116, guid: daea282b7c281ae44a74bf6afd4949ca, type: 3}
+      propertyPath: mWind.z
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
