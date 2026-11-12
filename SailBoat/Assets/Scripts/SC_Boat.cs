@@ -12,6 +12,10 @@ public class Boat : MonoBehaviour
     private BoxCollider mCollider;
     private Rigidbody mRigidbody;
 
+    [SerializeField] private int mPointsAcross = 2;
+    [SerializeField] private int mPointsAlong = 4;
+    private Vector3[] mHullPoints;
+
     [SerializeField] private List<ForceGenerator> mForces;
 
     // Input
@@ -38,6 +42,8 @@ public class Boat : MonoBehaviour
         mCollider = GetComponentInChildren<BoxCollider>();
         mRigidbody = GetComponent<Rigidbody>();
 
+        mHullPoints = new Vector3[mPointsAcross * mPointsAlong];
+
         mBoatCW = InputSystem.actions.FindAction("RotateBoatCW", throwIfNotFound: true);
         mBoatCCW = InputSystem.actions.FindAction("RotateBoatCCW", throwIfNotFound: true);
         mSailCW = InputSystem.actions.FindAction("RotateSailCW", throwIfNotFound: true);
@@ -51,6 +57,7 @@ public class Boat : MonoBehaviour
     private void FixedUpdate()
     {
         HandlePlayerInput();
+        UpdateHullPoints();
 
         for (int i = 0; i < mForces.Count; i++)
         {
@@ -111,6 +118,29 @@ public class Boat : MonoBehaviour
     }
 
     // ----------------------------
+    // DATA
+
+    // Center of each grid cell on the bottom face of the hull, in world space
+    private void UpdateHullPoints()
+    {
+        int index = 0;
+        for (int x = 0; x < mPointsAcross; x++)
+        {
+            for (int z = 0; z < mPointsAlong; z++)
+            {
+                // Center of this cell, from -0.5 to 0.5 across the box (the collider's local space)
+                float across = (x + 0.5f) / mPointsAcross - 0.5f;
+                float along = (z + 0.5f) / mPointsAlong - 0.5f;
+                float bottom = -0.5f;
+
+                Vector3 local = mCollider.center + Vector3.Scale(new Vector3(across, bottom, along), mCollider.size);
+                mHullPoints[index] = mCollider.transform.TransformPoint(local);
+                index++;
+            }
+        }
+    }
+
+    // ----------------------------
     // UTILITY
 
     public Vector3 GetLinearVelocity() { return mRigidbody.linearVelocity; }
@@ -135,4 +165,7 @@ public class Boat : MonoBehaviour
 
     public Vector3 GetPointVelocity(Vector3 worldPoint) { return mRigidbody.GetPointVelocity(worldPoint); }
     public BoxCollider GetHullCollider() { return mCollider; }
+    public Vector3[] GetHullPoints() { return mHullPoints; }
+    public Vector3 GetHullSize() { return Vector3.Scale(mCollider.size, mCollider.transform.lossyScale); }
+    public float GetPointArea() { return GetHullSize().x * GetHullSize().z / mHullPoints.Length; }
 }
