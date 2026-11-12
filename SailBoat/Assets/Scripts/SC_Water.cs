@@ -69,8 +69,8 @@ public class Water : MonoBehaviour
             mHeights[i] =   Mathf.Sin(mVertices[i].x * 0.2f + Time.time - 1) * 0.2f +
                             Mathf.Cos(mVertices[i].z * 0.2f + Time.time - 2) * 0.2f +
                             Mathf.Sin(mVertices[i].x * 0.5f + Time.time - 3) * 0.1f +
-                            Mathf.Cos(mVertices[i].z * 0.5f + Time.time - 4) * 0.1f;
-                            //Mathf.Cos(mVertices[i].z * 0.0000001f + Time.time/2 + 1) * 15f + 5;
+                            Mathf.Cos(mVertices[i].z * 0.5f + Time.time - 4) * 0.1f +
+                            Mathf.Cos(mVertices[i].z * 0.0000001f + Time.time/3 + 1) * 15f + 5;
         }
     }
 
