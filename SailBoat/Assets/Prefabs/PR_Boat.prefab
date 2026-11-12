@@ -330,6 +330,8 @@ GameObject:
   - component: {fileID: 7558550253812719547}
   - component: {fileID: 3695515899230223656}
   - component: {fileID: 3540075804120624744}
+  - component: {fileID: 91728587358448876}
+  - component: {fileID: 7496922531949669760}
   m_Layer: 0
   m_Name: PR_Boat
   m_TagString: Untagged
@@ -363,10 +365,10 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6495234049096461860}
   serializedVersion: 5
-  m_Mass: 5
+  m_Mass: 30000
   m_LinearDamping: 0.1
   m_AngularDamping: 0.1
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_CenterOfMass: {x: 0, y: -1, z: -0.05}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
   m_IncludeLayers:
@@ -396,9 +398,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Boat
   mBase: {fileID: 8485647631577658786}
   mSail: {fileID: 8192825215614507286}
+  mPointsAcross: 4
+  mPointsAlong: 4
   mForces:
   - {fileID: 3695515899230223656}
   - {fileID: 3540075804120624744}
+  - {fileID: 0}
+  - {fileID: 0}
   mLookSensitivity: 0.05
   mPitchLimit: 88
   mInvertY: 0
@@ -417,6 +423,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 873ac82fd610e374e9ee150dfc31b023, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BuoyancyForce
+  mWaterDensity: 1025
 --- !u!114 &3540075804120624744
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -433,6 +440,31 @@ MonoBehaviour:
   mDragCoefficient: 0.95
   mKeelResistance: 0.8
   mDebug: 1
+--- !u!114 &91728587358448876
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6495234049096461860}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 445f3bb3990aa1d45b2b65116f67683b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GravityForce
+--- !u!114 &7496922531949669760
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6495234049096461860}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b82d196a53c9c0d43b6a2eaee62e0249, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WaterDragForce
+  mDrag: {x: 5, y: 500, z: 5}
 --- !u!1 &6836267293244068639
 GameObject:
   m_ObjectHideFlags: 0
@@ -567,6 +599,7 @@ GameObject:
   - component: {fileID: 6288547733161476022}
   - component: {fileID: 3575647924556696675}
   - component: {fileID: 4462855235601704949}
+  - component: {fileID: 2847856851740593767}
   m_Layer: 0
   m_Name: BoatBase
   m_TagString: Untagged
@@ -647,6 +680,27 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &2847856851740593767
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8485647631577658786}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &9222575885146150116
 GameObject:
   m_ObjectHideFlags: 0

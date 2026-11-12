@@ -13,7 +13,7 @@ public class WindManager : MonoBehaviour
 
     private Boat[] mBoats;
 
-    [SerializeField] private int mWindParticles;
+    [SerializeField] private float mWindParticles;
 
 
     private void Start()
@@ -37,14 +37,15 @@ public class WindManager : MonoBehaviour
     private void Update()
     {
         float magnitude = mWind.magnitude;
-        int particles = mWindParticles * Mathf.FloorToInt(magnitude);
+        int particles = Mathf.FloorToInt(mWindParticles * magnitude);
+        float invMass = mBoats[0].GetMass();
 
         for (int i = 0; i < mMainModules.Length; i++)
         {
-            mMainModules[i].emitterVelocity = mWind;
-            mMainModules[i].gravityModifier = magnitude * -0.01f;
+            mMainModules[i].emitterVelocity = mWind * invMass * 0.0005f;
+            mMainModules[i].gravityModifier = 0;
             mEmmisionModules[i].rateOverTime = particles;
-            mTrailModules[i].lifetime = magnitude;
+            mTrailModules[i].lifetime = magnitude * invMass * 0.0001f;
         }
     }
 

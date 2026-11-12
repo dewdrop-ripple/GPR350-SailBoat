@@ -3352,11 +3352,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1989797741}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1 &2021980755 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6495234049096461860, guid: 8b1668887b7e710458b282dd1d2f0f39, type: 3}
-  m_PrefabInstance: {fileID: 2490601434707192606}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2103594953
 GameObject:
   m_ObjectHideFlags: 0
@@ -3609,33 +3604,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2516390522186174686, guid: 8b1668887b7e710458b282dd1d2f0f39, type: 3}
-      propertyPath: m_Mass
-      value: 30000
-      objectReference: {fileID: 0}
-    - target: {fileID: 2516390522186174686, guid: 8b1668887b7e710458b282dd1d2f0f39, type: 3}
-      propertyPath: m_CenterOfMass.y
-      value: -1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2516390522186174686, guid: 8b1668887b7e710458b282dd1d2f0f39, type: 3}
-      propertyPath: m_CenterOfMass.z
-      value: -0.05
-      objectReference: {fileID: 0}
     - target: {fileID: 3540075804120624744, guid: 8b1668887b7e710458b282dd1d2f0f39, type: 3}
       propertyPath: mDebug
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3540075804120624744, guid: 8b1668887b7e710458b282dd1d2f0f39, type: 3}
+      propertyPath: mKeelResistance
+      value: 0.9
       objectReference: {fileID: 0}
     - target: {fileID: 6495234049096461860, guid: 8b1668887b7e710458b282dd1d2f0f39, type: 3}
       propertyPath: m_Name
       value: PR_Boat
-      objectReference: {fileID: 0}
-    - target: {fileID: 7558550253812719547, guid: 8b1668887b7e710458b282dd1d2f0f39, type: 3}
-      propertyPath: mPointsAcross
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 7558550253812719547, guid: 8b1668887b7e710458b282dd1d2f0f39, type: 3}
-      propertyPath: mForces.Array.size
-      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 7558550253812719547, guid: 8b1668887b7e710458b282dd1d2f0f39, type: 3}
       propertyPath: 'mForces.Array.data[2]'
@@ -3689,41 +3668,32 @@ PrefabInstance:
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 6495234049096461860, guid: 8b1668887b7e710458b282dd1d2f0f39, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2490601434707192608}
-    - targetCorrespondingSourceObject: {fileID: 6495234049096461860, guid: 8b1668887b7e710458b282dd1d2f0f39, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2490601434707192613}
     - targetCorrespondingSourceObject: {fileID: 8485647631577658786, guid: 8b1668887b7e710458b282dd1d2f0f39, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1441199146}
   m_SourcePrefab: {fileID: 100100000, guid: 8b1668887b7e710458b282dd1d2f0f39, type: 3}
---- !u!114 &2490601434707192608
+--- !u!114 &2490601434707192608 stripped
 MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 91728587358448876, guid: 8b1668887b7e710458b282dd1d2f0f39, type: 3}
+  m_PrefabInstance: {fileID: 2490601434707192606}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2021980755}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 445f3bb3990aa1d45b2b65116f67683b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GravityForce
---- !u!114 &2490601434707192613
+--- !u!114 &2490601434707192613 stripped
 MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 7496922531949669760, guid: 8b1668887b7e710458b282dd1d2f0f39, type: 3}
+  m_PrefabInstance: {fileID: 2490601434707192606}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2021980755}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b82d196a53c9c0d43b6a2eaee62e0249, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WaterDragForce
-  mDrag: {x: 500, y: 500, z: 50}
 --- !u!1001 &7577374854155594479
 PrefabInstance:
   m_ObjectHideFlags: 0

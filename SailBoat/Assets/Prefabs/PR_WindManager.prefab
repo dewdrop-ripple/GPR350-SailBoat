@@ -44,6 +44,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b48647d192a3394cb5df1e80c869ee8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WindManager
-  mWind: {x: 0, y: 0, z: 0}
+  mWind: {x: 0, y: 0, z: 10000}
   mParticleSystemBase: {fileID: 7827204732881874363, guid: 73d7c17c95504fb479753358bf07d131, type: 3}
-  mWindParticles: 1
+  mWindParticles: 0.001
