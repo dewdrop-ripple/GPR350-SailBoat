@@ -61,7 +61,7 @@
                 {
                     "name": "",
                     "id": "1f3443a2-3dee-48fd-9a1e-083d9422d2fd",
-                    "path": "<Keyboard>/d",
+                    "path": "<Keyboard>/e",
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
@@ -82,8 +82,19 @@
                 },
                 {
                     "name": "",
+                    "id": "a3e1e7d7-45ce-4578-b769-2f117e3e877c",
+                    "path": "<Keyboard>/o",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RotateSailCW",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "8cbd7062-fd41-418c-896c-6080852e42b9",
-                    "path": "<Keyboard>/a",
+                    "path": "<Keyboard>/q",
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
@@ -98,6 +109,17 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";Gamepad",
+                    "action": "RotateSailCCW",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8fac77e8-3629-489c-a085-d2e3506ff799",
+                    "path": "<Keyboard>/u",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
                     "action": "RotateSailCCW",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -126,6 +148,17 @@
                 },
                 {
                     "name": "",
+                    "id": "23b3526e-e1ea-47fd-b5f5-0519e1fc6056",
+                    "path": "<Keyboard>/d",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RotateBoatCW",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "ac175deb-7f82-4f0f-a947-140d0bdb7b41",
                     "path": "<Keyboard>/j",
                     "interactions": "",
@@ -142,6 +175,17 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";Gamepad",
+                    "action": "RotateBoatCCW",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "40b1a46f-1b9c-4293-b100-40f5fd7fe1ba",
+                    "path": "<Keyboard>/a",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
                     "action": "RotateBoatCCW",
                     "isComposite": false,
                     "isPartOfComposite": false

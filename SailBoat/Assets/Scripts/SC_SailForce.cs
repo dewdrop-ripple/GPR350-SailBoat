@@ -41,6 +41,10 @@ public class SailForce : ForceGenerator
         Vector3 forwardMovement = Vector3.Project(actualForce, boatDirection) * 4;
         Vector3 sideMovement = Vector3.Project(actualForce, forwardMovement) * mKeelResistance;
 
+        Vector3 finalForce = forwardMovement + sideMovement;
+
+        if (Vector3.Dot(finalForce, apparentWindVelocity) < 0) { finalForce *= -1; }
+
         if (mDebug)
         {
             // Wind Velocity
@@ -69,9 +73,9 @@ public class SailForce : ForceGenerator
             Debug.DrawLine(attachedBoat.transform.position + (Vector3.up * 2) + perpDirection, attachedBoat.transform.position + (Vector3.up * 2) + (perpDirection * 2), Color.pink);
 
             // Final Force
-            Debug.DrawLine(attachedBoat.transform.position + (Vector3.up * 2) + forwardMovement + sideMovement, attachedBoat.transform.position + (Vector3.up * 2) + ((forwardMovement + sideMovement) * 2), Color.black);
+            Debug.DrawLine(attachedBoat.transform.position + (Vector3.up * 2) + finalForce, attachedBoat.transform.position + (Vector3.up * 2) + (finalForce * 2), Color.black);
         }
 
-        attachedBoat.AddForce(forwardMovement + sideMovement);
+        attachedBoat.AddForce(finalForce);
     }
 }

@@ -161,7 +161,18 @@ public class Boat : MonoBehaviour
     public float GetVolume() { return mCollider.transform.lossyScale.x * mCollider.transform.lossyScale.y * mCollider.transform.lossyScale.z; }
 
     public Vector3 GetForwardVector() { return transform.forward; }
-    public Vector3 GetSailNormal() { return mSail.transform.right; }
+    public Vector3 GetSailNormal() 
+    {
+        float r = Vector3.Dot(transform.forward, mSail.transform.right);
+        float l = Vector3.Dot(transform.forward, mSail.transform.right * -1);
+
+        if (r > l)
+        {
+            return mSail.transform.right;
+        }
+
+        return mSail.transform.right * -1;
+    } 
 
     public Vector3 GetPointVelocity(Vector3 worldPoint) { return mRigidbody.GetPointVelocity(worldPoint); }
     public BoxCollider GetHullCollider() { return mCollider; }
