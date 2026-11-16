@@ -32,11 +32,17 @@ public class Water : MonoBehaviour
     private Vector3[] mNormals;
 
 
-    // Gerstner waves, see catlikecoding.com/unity/tutorials/flow/waves
-    // Returns how far the waves push a flat grid point, and the surface normal there
-    private Vector3 Displacement(Vector3 grid, out Vector3 normal)
+    private struct Surface
     {
-        Vector3 offset = Vector3.zero;
+        public Vector3 offset;   // how far the waves push the flat grid point
+        public Vector3 normal;
+        public Vector3 velocity; // how fast the water at that point is moving
+    }
+
+    // Gerstner waves, see catlikecoding.com/unity/tutorials/flow/waves
+    private Surface Sample(Vector3 grid)
+    {
+        Surface s = new Surface();
         Vector3 tangent = Vector3.right;
         Vector3 binormal = Vector3.forward;
 
@@ -49,30 +55,43 @@ public class Water : MonoBehaviour
             float a = w.steepness / k;
             float sin = Mathf.Sin(f);
             float cos = Mathf.Cos(f);
+            float speed = a * k * c; // a * angular frequency
 
-            offset += new Vector3(d.x * a * cos, a * sin, d.y * a * cos);
+            s.offset += new Vector3(d.x * a * cos, a * sin, d.y * a * cos);
+            s.velocity += new Vector3(d.x * speed * sin, -speed * cos, d.y * speed * sin); // time derivative of the line above
             tangent += new Vector3(-d.x * d.x * w.steepness * sin, d.x * w.steepness * cos, -d.x * d.y * w.steepness * sin);
             binormal += new Vector3(-d.x * d.y * w.steepness * sin, d.y * w.steepness * cos, -d.y * d.y * w.steepness * sin);
         }
 
-        normal = Vector3.Cross(binormal, tangent).normalized;
-        return offset;
+        s.normal = Vector3.Cross(binormal, tangent).normalized;
+        return s;
     }
 
-    public float GetHeight(Vector3 worldPos)
+    private Surface SampleAt(Vector3 worldPos)
     {
         Vector3 local = worldPos - transform.position;
-        Vector3 normal;
 
+        // The waves also push points sideways, so find the flat grid point that ends up under this spot
+        // shortcut: 4 passes is plenty while steepness sums to 1 or less, add passes if the height looks off
         Vector3 grid = new Vector3(local.x, 0f, local.z);
         for (int i = 0; i < 4; i++)
         {
-            Vector3 offset = Displacement(grid, out normal);
+            Vector3 offset = Sample(grid).offset;
             grid.x = local.x - offset.x;
             grid.z = local.z - offset.z;
         }
 
-        return transform.position.y + Displacement(grid, out normal).y;
+        return Sample(grid);
+    }
+
+    public float GetHeight(Vector3 worldPos)
+    {
+        return transform.position.y + SampleAt(worldPos).offset.y;
+    }
+
+    public Vector3 GetVelocity(Vector3 worldPos)
+    {
+        return SampleAt(worldPos).velocity;
     }
 
     public float GetDepth(Vector3 worldPos)
@@ -102,7 +121,9 @@ public class Water : MonoBehaviour
     {
         for (int i = 0; i < mVertices.Length; i++)
         {
-            mVertices[i] = mGrid[i] + Displacement(mGrid[i], out mNormals[i]);
+            Surface s = Sample(mGrid[i]);
+            mVertices[i] = mGrid[i] + s.offset;
+            mNormals[i] = s.normal;
         }
     }
 

@@ -21,11 +21,19 @@ public class WaterDragForce : ForceGenerator
         {
             float volume = Mathf.Min(mWater.GetDepth(pos), hullHeight) * pointArea;
 
-            // Resist motion along each hull axis by its own strength
-            Vector3 localVelocity = hull.InverseTransformDirection(boat.GetPointVelocity(pos));
-            Vector3 drag = hull.TransformDirection(-Vector3.Scale(localVelocity, mDrag) * volume);
+            // Measured against the moving water, so a wave carrying the boat up doesn't count as the boat fighting it
+            Vector3 relativeVelocity = boat.GetPointVelocity(pos) - mWater.GetVelocity(pos);
 
-            boat.AddForceAtPoint(drag, pos);
+            // Vertical drag stays vertical. Along the hull's own up axis, a tilted hull on a wave
+            // would turn the huge vertical drag into a sideways push
+            Vector3 forward = Vector3.ProjectOnPlane(hull.forward, Vector3.up).normalized;
+            Vector3 right = Vector3.ProjectOnPlane(hull.right, Vector3.up).normalized;
+
+            Vector3 drag = -forward * (Vector3.Dot(relativeVelocity, forward) * mDrag.z)
+                           - right * (Vector3.Dot(relativeVelocity, right) * mDrag.x)
+                           - Vector3.up * (relativeVelocity.y * mDrag.y);
+
+            boat.AddForceAtPoint(drag * volume, pos);
         }
     }
 }
