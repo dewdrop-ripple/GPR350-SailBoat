@@ -71,6 +71,7 @@ public class Boat : MonoBehaviour
 
     private void HandlePlayerInput()
     {
+        /*
         // Looking
         var lookInput = mLookAction.ReadValue<Vector2>();
 
@@ -79,6 +80,7 @@ public class Boat : MonoBehaviour
 
         mPlayerCamera.transform.localRotation = Quaternion.Euler(mPitch, 0, 0);
         mPlayer.transform.Rotate(0, lookInput.x * mLookSensitivity, 0);
+        */
 
         // Boat
         float boatRotation = 0; 

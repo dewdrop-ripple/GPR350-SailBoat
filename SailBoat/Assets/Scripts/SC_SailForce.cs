@@ -9,6 +9,7 @@ public class SailForce : ForceGenerator
     [SerializeField, Range(0f, 1f)] private float mKeelResistance;
 
     [SerializeField] private bool mDebug;
+    [SerializeField] private Vector3 mDebugForce; 
 
 
     private void Start()
@@ -20,15 +21,21 @@ public class SailForce : ForceGenerator
     {
         Vector3 apparentWindVelocity = mWindManager.GetWind() - attachedBoat.GetLinearVelocity(); // Velocity of the wind relative to the ship
 
-        Vector3 drag = apparentWindVelocity * mDragCoefficient;
-        Vector3 lift = Vector3.Cross(apparentWindVelocity, Vector3.up) * mLiftCoefficient;
+        // Normal vector of the sail moving in the same direction of the apparent wind
+        Vector3 sailNormal = attachedBoat.GetSailNormal();
+        if (Vector3.Dot(sailNormal, apparentWindVelocity) < 0f) { sailNormal *= -1; }
 
+        // Lift in the same direction as the sail normal
+        Vector3 lift = Vector3.Cross(apparentWindVelocity, Vector3.up) * mLiftCoefficient;
+        if (Vector3.Dot(sailNormal, lift) < 0f) { lift *= -1; }
+
+        Vector3 drag = apparentWindVelocity * mDragCoefficient;
         Vector3 totalForce = lift + drag;
 
         // Idea1: 0 degrees between sail and wind directions (same direction) // cos(0) = 1
         // Max w/o stopping: 150 degrees between sail and wind directions // cos(150) = -0.87
 
-        float forceScale = (Vector3.Dot(totalForce.normalized, attachedBoat.GetSailNormal()) + 0.87f) / 1.87f; // % of the actual force based on angle of the sail
+        float forceScale = (Vector3.Dot(totalForce.normalized, sailNormal) + 0.87f) / 1.87f; // % of the actual force based on angle of the sail
 
         Vector3 actualForce = totalForce * forceScale; // Actual force of the wind on the boat
 
@@ -77,5 +84,7 @@ public class SailForce : ForceGenerator
         }
 
         attachedBoat.AddForce(finalForce);
+
+        mDebugForce = finalForce;
     }
 }
