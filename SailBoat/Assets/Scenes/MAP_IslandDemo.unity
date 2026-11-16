@@ -412,14 +412,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: PR_WindManager
       objectReference: {fileID: 0}
-    - target: {fileID: 6195804731146458116, guid: daea282b7c281ae44a74bf6afd4949ca, type: 3}
-      propertyPath: mWindParticles
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 6195804731146458116, guid: daea282b7c281ae44a74bf6afd4949ca, type: 3}
-      propertyPath: mChangeFrequency
-      value: 5
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
