@@ -29,7 +29,6 @@ public class Boat : MonoBehaviour
     [SerializeField] private bool mInvertY = false;
 
     [SerializeField] private Camera mPlayerCamera;
-    [SerializeField] private GameObject mPlayer;
 
     [SerializeField] private float mBoatTurnSpeed = .05f;
 
@@ -71,17 +70,6 @@ public class Boat : MonoBehaviour
 
     private void HandlePlayerInput()
     {
-        /*
-        // Looking
-        var lookInput = mLookAction.ReadValue<Vector2>();
-
-        mPitch += lookInput.y * mLookSensitivity * -1;
-        mPitch = Mathf.Clamp(mPitch, -mPitchLimit, mPitchLimit);
-
-        mPlayerCamera.transform.localRotation = Quaternion.Euler(mPitch, 0, 0);
-        mPlayer.transform.Rotate(0, lookInput.x * mLookSensitivity, 0);
-        */
-
         // Boat
         float boatRotation = 0; 
 
@@ -97,6 +85,8 @@ public class Boat : MonoBehaviour
         if (mSailCCW.IsPressed()) { sailRotation--; }
 
         mSail.transform.Rotate(0, sailRotation * mBoatTurnSpeed, 0);
+
+        mPlayerCamera.transform.rotation = Quaternion.LookRotation(transform.position - mPlayerCamera.transform.position);
     }
 
 
