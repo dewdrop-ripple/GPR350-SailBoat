@@ -86,7 +86,7 @@ public class Boat : MonoBehaviour
 
         mSail.transform.Rotate(0, sailRotation * mBoatTurnSpeed, 0);
 
-        mPlayerCamera.transform.rotation = Quaternion.LookRotation(transform.position - mPlayerCamera.transform.position);
+        mPlayerCamera.transform.rotation = Quaternion.LookRotation((transform.position + new Vector3(0, 3, 0)) - mPlayerCamera.transform.position);
     }
 
 

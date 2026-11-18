@@ -21,7 +21,7 @@ public class HUD : MonoBehaviour
         float windDirection = Vector3.Angle(mBoat.GetLinearVelocity(), mWindManager.GetWind());
         mWindIndicator.transform.localRotation = Quaternion.Euler(0, 0, windDirection);
 
-        float windSpeed = Mathf.FloorToInt(mWindManager.GetWindStrength() * 4) / 4;
-        mWindSpeedText.text = windSpeed.ToString() + " knots";
+        float windSpeed = Mathf.FloorToInt(mBoat.GetLinearVelocity().magnitude * 4) / 4;
+        mWindSpeedText.text = windSpeed.ToString() + " m/s";
     }
 }
