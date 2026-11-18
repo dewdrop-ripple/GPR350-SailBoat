@@ -176,7 +176,7 @@ Transform:
   m_GameObject: {fileID: 1570457086986631610}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.09, y: 9.86, z: -21.27}
+  m_LocalPosition: {x: 0.09, y: 11.63, z: -35.9}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -200,7 +200,7 @@ Camera:
   m_ShutterSpeed: 0.005
   m_Aperture: 16
   m_FocusDistance: 10
-  m_FocalLength: 50
+  m_FocalLength: 20.78461
   m_BladeCount: 5
   m_Curvature: {x: 2, y: 11}
   m_BarrelClipping: 0.25
@@ -214,8 +214,8 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.3
-  far clip plane: 1000
-  field of view: 60
+  far clip plane: 1500
+  field of view: 60.000004
   orthographic: 0
   orthographic size: 5
   m_Depth: 0
@@ -385,7 +385,6 @@ GameObject:
   m_Component:
   - component: {fileID: 3459144530565476332}
   - component: {fileID: 1297082002782483101}
-  - component: {fileID: 3319588534314839630}
   - component: {fileID: 4830443029046093677}
   m_Layer: 0
   m_Name: MapCamera
@@ -460,14 +459,6 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
---- !u!81 &3319588534314839630
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2722295282974765521}
-  m_Enabled: 1
 --- !u!114 &4830443029046093677
 MonoBehaviour:
   m_ObjectHideFlags: 0
