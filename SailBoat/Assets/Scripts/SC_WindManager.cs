@@ -77,7 +77,7 @@ public class WindManager : MonoBehaviour
         float magnitudeChange = Random.Range(0.1f, 2f);
 
         if (!mDirectionIncreasing) { directionChange *= -1; }
-        if (!mMagnitudeIncreasing) { directionChange *= -1; }
+        if (!mMagnitudeIncreasing) { magnitudeChange *= -1; }
 
         mWindDirection += directionChange;
         mWindMagnitude += magnitudeChange;
@@ -99,4 +99,6 @@ public class WindManager : MonoBehaviour
     }
 
     public Vector3 GetWind() { return mWind; }
+
+    public float GetWindStrength() { return mWindMagnitude; }
 }
