@@ -65,8 +65,8 @@ public class WindManager : MonoBehaviour
         float rand = Random.Range(0f, 1f);
         if (rand <= 0.15f) { mDirectionIncreasing = !mDirectionIncreasing; }
 
-        if (mWindMagnitude > 20f) { mMagnitudeIncreasing = false; }
-        else if (mWindMagnitude < 5f) { mMagnitudeIncreasing = true; }
+        if (mWindMagnitude > 25f) { mMagnitudeIncreasing = false; }
+        else if (mWindMagnitude < 8f) { mMagnitudeIncreasing = true; }
         else
         {
             rand = Random.Range(0f, 1f);
