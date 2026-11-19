@@ -19,7 +19,7 @@ public class WindManager : MonoBehaviour
     // Randomness
 
     [SerializeField, Range(0, 6.283f)] private float mWindDirection = 0; // 0 - 2pi
-    [SerializeField, Range(5f, 20f)] private float mWindMagnitude = 7; // 5 - 20
+    [SerializeField, Range(16f, 36f)] private float mWindMagnitude = 20; // 5 - 20
 
     private bool mDirectionIncreasing = true;
     private bool mMagnitudeIncreasing = false;
@@ -65,8 +65,8 @@ public class WindManager : MonoBehaviour
         float rand = Random.Range(0f, 1f);
         if (rand <= 0.15f) { mDirectionIncreasing = !mDirectionIncreasing; }
 
-        if (mWindMagnitude > 32f) { mMagnitudeIncreasing = false; }
-        else if (mWindMagnitude < 12f) { mMagnitudeIncreasing = true; }
+        if (mWindMagnitude > 36f) { mMagnitudeIncreasing = false; }
+        else if (mWindMagnitude < 16f) { mMagnitudeIncreasing = true; }
         else
         {
             rand = Random.Range(0f, 1f);
