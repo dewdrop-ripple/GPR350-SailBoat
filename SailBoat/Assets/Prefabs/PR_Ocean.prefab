@@ -47,19 +47,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34ac3564cd2aa264caee85c6933818a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Ocean
-  mWindSpeed: 5
+  mFFT: {fileID: 7200000, guid: f63ee6a9073794c4d95770c9e1b3417b, type: 3}
   mFetch: 250000
-  mWindDirection: {x: 0, y: 0}
-  mPeakSharpness: 3.3
   mSpread: 5
-  mSeed: 1
-  mResolution: 256
-  mPatchSize: 500
-  mRipplePatchSize: 40
-  mWindResponseTime: 5
   mHeightScale: 1
   mChoppiness: 2
-  mFFT: {fileID: 7200000, guid: f63ee6a9073794c4d95770c9e1b3417b, type: 3}
 --- !u!114 &1714909879116745850
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -73,7 +65,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OceanSurface
   mShader: {fileID: 4800000, guid: c6d4265db113c3e4a8965dfc50175fdc, type: 3}
-  mSize: 1000
+  mSize: 3000
   mResolution: 1000
 --- !u!33 &2752061937631728578
 MeshFilter:
