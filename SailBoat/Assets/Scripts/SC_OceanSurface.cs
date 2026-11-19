@@ -6,17 +6,11 @@ using UnityEngine.Rendering;
 public class OceanSurface : MonoBehaviour
 {
     [SerializeField] private Shader mShader; // OceanSurface.shader
-    [SerializeField] private float mSize = 1000f; // how far the ocean reaches
+    [SerializeField] private float mSize = 10000f; // how far the ocean reaches
     [SerializeField] private int mResolution = 1000; // quads per side
 
     private void Start()
     {
-        if (mShader == null)
-        {
-            Debug.LogWarning("Youre missing the shader");
-            return;
-        }
-
         GetComponent<MeshFilter>().mesh = BuildGrid();
         GetComponent<MeshRenderer>().material = new Material(mShader);
     }

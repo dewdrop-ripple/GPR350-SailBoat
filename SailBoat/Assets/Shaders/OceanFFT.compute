@@ -25,6 +25,8 @@ float HeightScale;
 float KMin; // the wave sizes this tile makes
 float KMax;
 
+float ShortWaveFade; // m: waves much shorter than about 6x this fade out
+
 [numthreads(8, 8, 1)]
 void Spectrum(uint3 id : SV_DispatchThreadID)
 {
@@ -54,6 +56,10 @@ void Spectrum(uint3 id : SV_DispatchThreadID)
 
         // frequency to wave number: dw/dk = g / 2w
         float energy = jonswap * GRAVITY / (2.0 * w) / k * direction;
+
+        // damp the tiniest waves: a tile can't draw a wave that is only a few pixels long smoothly
+        energy *= exp(-(ShortWaveFade * k) * (ShortWaveFade * k));
+
         float dk = 2.0 * PI / PatchSize;
 
         // 0.5: each wave also gets a mirrored copy
