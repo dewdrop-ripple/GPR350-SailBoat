@@ -4,11 +4,11 @@ public class WaterDragForce : ForceGenerator
 {
     [SerializeField] private Vector3 mDrag = new Vector3(500f, 3000f, 50f); // sideways, vertical, forward: per m^3 submerged, per m/s
 
-    private Water mWater;
+    private Ocean mOcean;
 
     private void Start()
     {
-        mWater = FindAnyObjectByType<Water>();
+        mOcean = FindAnyObjectByType<Ocean>();
     }
 
     public override void GenerateForce(Boat boat)
@@ -19,13 +19,12 @@ public class WaterDragForce : ForceGenerator
 
         foreach (Vector3 pos in boat.GetHullPoints())
         {
-            float volume = Mathf.Min(mWater.GetDepth(pos), hullHeight) * pointArea;
+            float volume = Mathf.Min(mOcean.GetDepth(pos), hullHeight) * pointArea;
 
-            // Measured against the moving water, so a wave carrying the boat up doesn't count as the boat fighting it
-            Vector3 relativeVelocity = boat.GetPointVelocity(pos) - mWater.GetVelocity(pos);
+            // against the moving water, not the ground
+            Vector3 relativeVelocity = boat.GetPointVelocity(pos) - mOcean.GetVelocity(pos);
 
-            // Vertical drag stays vertical. Along the hull's own up axis, a tilted hull on a wave
-            // would turn the huge vertical drag into a sideways push
+            // vertical drag acts straight up, or a tilted hull turns it into a sideways push
             Vector3 forward = Vector3.ProjectOnPlane(hull.forward, Vector3.up).normalized;
             Vector3 right = Vector3.ProjectOnPlane(hull.right, Vector3.up).normalized;
 

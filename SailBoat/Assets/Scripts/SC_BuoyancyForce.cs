@@ -4,11 +4,11 @@ public class BuoyancyForce : ForceGenerator
 {
     [SerializeField] private float mWaterDensity = 1025f; // kg/m^3
 
-    private Water mWater;
+    private Ocean mOcean;
 
     private void Start()
     {
-        mWater = FindAnyObjectByType<Water>();
+        mOcean = FindAnyObjectByType<Ocean>();
     }
 
     public override void GenerateForce(Boat boat)
@@ -19,7 +19,7 @@ public class BuoyancyForce : ForceGenerator
 
         foreach (Vector3 pos in boat.GetHullPoints())
         {
-            float volume = Mathf.Min(mWater.GetDepth(pos), hullHeight) * pointArea;
+            float volume = Mathf.Min(mOcean.GetDepth(pos), hullHeight) * pointArea;
             boat.AddForceAtPoint(Vector3.up * (mWaterDensity * gravity * volume), pos);
         }
     }

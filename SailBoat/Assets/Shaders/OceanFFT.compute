@@ -1,0 +1,173 @@
+#pragma kernel Spectrum
+#pragma kernel Evolve
+#pragma kernel FFTStage
+#pragma kernel Finish
+
+#define PI 3.14159265359
+#define GRAVITY 9.81
+
+int N; // grid size
+float PatchSize; // m
+float SimTime; // s
+
+Texture2D<float2> Input;
+RWTexture2D<float2> Output;
+
+// grids are centered: x = N / 2 is wave number 0
+Texture2D<float2> Gauss;
+float2 WindDirection;
+float Alpha; // JONSWAP constants, set from the CPU
+float PeakW;
+float PeakSharpness;
+float Spread;
+float SpreadNorm;
+float HeightScale;
+float KMin; // the wave sizes this tile makes
+float KMax;
+
+float ShortWaveFade; // m: waves much shorter than about 6x this fade out
+
+[numthreads(8, 8, 1)]
+void Spectrum(uint3 id : SV_DispatchThreadID)
+{
+    float kx = (int(id.x) - N / 2) * 2.0 * PI / PatchSize;
+    float kz = (int(id.y) - N / 2) * 2.0 * PI / PatchSize;
+    float k = sqrt(kx * kx + kz * kz);
+
+    float2 h0 = float2(0.0, 0.0);
+    float cosAngle = (kx * WindDirection.x + kz * WindDirection.y) / max(k, 1e-6);
+
+    // nothing travels against the wind
+    if (k > max(KMin, 1e-6) && k <= KMax && cosAngle > 0.0)
+    {
+        float w = sqrt(GRAVITY * k);
+
+        float sigma = 0.07;
+        if (w > PeakW)
+        {
+            sigma = 0.09;
+        }
+
+        float r = exp(-(w - PeakW) * (w - PeakW) / (2.0 * sigma * sigma * PeakW * PeakW));
+        float jonswap = Alpha * GRAVITY * GRAVITY / pow(w, 5.0)
+                        * exp(-1.25 * pow(PeakW / w, 4.0))
+                        * pow(PeakSharpness, r);
+        float direction = pow(cosAngle, Spread) / SpreadNorm;
+
+        // frequency to wave number: dw/dk = g / 2w
+        float energy = jonswap * GRAVITY / (2.0 * w) / k * direction;
+
+        // damp the tiniest waves: a tile can't draw a wave that is only a few pixels long smoothly
+        energy *= exp(-(ShortWaveFade * k) * (ShortWaveFade * k));
+
+        float dk = 2.0 * PI / PatchSize;
+
+        // 0.5: each wave also gets a mirrored copy
+        h0 = Gauss[id.xy] * (0.5 * sqrt(energy * dk * dk) * HeightScale);
+    }
+
+    Output[id.xy] = h0;
+}
+
+
+RWTexture2D<float2> Output2; // FFT push along z
+
+float2 MulI(float2 a)
+{
+    return float2(-a.y, a.x);
+}
+
+// the wave number -k sits at N - x
+[numthreads(8, 8, 1)]
+void Evolve(uint3 id : SV_DispatchThreadID)
+{
+    float2 h0 = Input[id.xy];
+    float2 mirror = Input[uint2((N - id.x) % N, (N - id.y) % N)];
+
+    float kx = (int(id.x) - N / 2) * 2.0 * PI / PatchSize;
+    float kz = (int(id.y) - N / 2) * 2.0 * PI / PatchSize;
+    float k = sqrt(kx * kx + kz * kz);
+    float w = sqrt(GRAVITY * k);
+
+    float s, c;
+    sincos(w * SimTime, s, c);
+
+    // h0(k) * e^(-iwt): travelling along k
+    float2 forward = float2(h0.x * c + h0.y * s, -h0.x * s + h0.y * c);
+    // conj(h0(-k)) * e^(+iwt): mirror image, keeps the heights real
+    float2 backward = float2(mirror.x * c + mirror.y * s, mirror.x * s - mirror.y * c);
+
+    float2 height = forward + backward;
+
+    // push the water toward the crests
+    float2 pushX = float2(0.0, 0.0);
+    float2 pushZ = float2(0.0, 0.0);
+    if (k > 1e-6)
+    {
+        pushX = MulI(height) * (kx / k);
+        pushZ = MulI(height) * (kz / k);
+    }
+
+    // height and x push are both real, so one FFT carries both: height + i * pushX
+    Output[id.xy] = height + MulI(pushX);
+    Output2[id.xy] = pushZ;
+}
+
+
+// one pass of the inverse FFT (Stockham, radix 2), N / 2 threads per row
+int Ns; // 1, 2, 4 ... N / 2
+int Vertical; // 0 = along x, 1 = along z
+
+[numthreads(8, 8, 1)]
+void FFTStage(uint3 id : SV_DispatchThreadID)
+{
+    uint j = id.x;
+    uint row = id.y;
+    uint k = j & (Ns - 1);
+    uint dst = (j / Ns) * Ns * 2 + k;
+
+    uint2 in0 = uint2(j, row);
+    uint2 in1 = uint2(j + N / 2, row);
+    uint2 out0 = uint2(dst, row);
+    uint2 out1 = uint2(dst + Ns, row);
+
+    if (Vertical == 1)
+    {
+        in0 = in0.yx;
+        in1 = in1.yx;
+        out0 = out0.yx;
+        out1 = out1.yx;
+    }
+
+    float2 v0 = Input[in0];
+    float2 v1 = Input[in1];
+
+    float s, c;
+    sincos(2.0 * PI * k / (Ns * 2), s, c);
+    v1 = float2(v1.x * c - v1.y * s, v1.x * s + v1.y * c);
+
+    Output[out0] = v0 + v1;
+    Output[out1] = v0 - v1;
+}
+
+
+// the centered grid flips every other sample, flip it back
+Texture2D<float2> Input2; // the second FFT: x = push along z
+RWTexture2D<float4> Displacement; // m: x, y (up), z
+float Choppiness;
+
+[numthreads(8, 8, 1)]
+void Finish(uint3 id : SV_DispatchThreadID)
+{
+    float flip = 1.0;
+    if (((id.x + id.y) & 1) == 1)
+    {
+        flip = -1.0;
+    }
+
+    float2 first = Input[id.xy];
+    float h = first.x * flip;
+    float pushX = first.y * flip;
+    float pushZ = Input2[id.xy].x * flip;
+    Displacement[id.xy] = float4(pushX * Choppiness, h, pushZ * Choppiness, 1.0);
+}

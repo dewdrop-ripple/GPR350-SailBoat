@@ -13,7 +13,7 @@ public class Water : MonoBehaviour
     [SerializeField] private float mSize = 200f;    // m
     [SerializeField] private int mResolution = 100; // quads per side
 
-    [SerializeField] private bool mDebugVertices;   // draw a dot on every vertex
+    [SerializeField] private bool mDebugVertices;
     [SerializeField] private Wave[] mWaves =
     {
         new Wave { direction = new Vector2(1f, 0f), steepness = 0.12f, wavelength = 36f },
@@ -27,16 +27,16 @@ public class Water : MonoBehaviour
     };
 
     private Mesh mMesh;
-    private Vector3[] mGrid;     // flat positions, never changes
-    private Vector3[] mVertices; // grid + wave displacement
+    private Vector3[] mGrid;     // flat positions
+    private Vector3[] mVertices; // grid + displacement
     private Vector3[] mNormals;
 
 
     private struct Surface
     {
-        public Vector3 offset;   // how far the waves push the flat grid point
+        public Vector3 offset;
         public Vector3 normal;
-        public Vector3 velocity; // how fast the water at that point is moving
+        public Vector3 velocity;
     }
 
     // Gerstner waves, see catlikecoding.com/unity/tutorials/flow/waves
@@ -55,10 +55,10 @@ public class Water : MonoBehaviour
             float a = w.steepness / k;
             float sin = Mathf.Sin(f);
             float cos = Mathf.Cos(f);
-            float speed = a * k * c; // a * angular frequency
+            float speed = a * k * c;
 
             s.offset += new Vector3(d.x * a * cos, a * sin, d.y * a * cos);
-            s.velocity += new Vector3(d.x * speed * sin, -speed * cos, d.y * speed * sin); // time derivative of the line above
+            s.velocity += new Vector3(d.x * speed * sin, -speed * cos, d.y * speed * sin); // d(offset)/dt
             tangent += new Vector3(-d.x * d.x * w.steepness * sin, d.x * w.steepness * cos, -d.x * d.y * w.steepness * sin);
             binormal += new Vector3(-d.x * d.y * w.steepness * sin, d.y * w.steepness * cos, -d.y * d.y * w.steepness * sin);
         }
@@ -71,8 +71,8 @@ public class Water : MonoBehaviour
     {
         Vector3 local = worldPos - transform.position;
 
-        // The waves also push points sideways, so find the flat grid point that ends up under this spot
-        // shortcut: 4 passes is plenty while steepness sums to 1 or less, add passes if the height looks off
+        // find the flat grid point that ends up under this spot
+        // shortcut: 4 passes is plenty while steepness sums to 1 or less
         Vector3 grid = new Vector3(local.x, 0f, local.z);
         for (int i = 0; i < 4; i++)
         {
@@ -149,7 +149,6 @@ public class Water : MonoBehaviour
         mNormals = new Vector3[count * count];
         int[] triangles = new int[mResolution * mResolution * 6];
 
-        // Vertices: a flat square grid centered on the object
         for (int z = 0; z < count; z++)
         {
             for (int x = 0; x < count; x++)
@@ -160,7 +159,6 @@ public class Water : MonoBehaviour
             }
         }
 
-        // Triangles: two per grid square
         int t = 0;
         for (int z = 0; z < mResolution; z++)
         {
@@ -173,10 +171,10 @@ public class Water : MonoBehaviour
         }
 
         mMesh = new Mesh();
-        mMesh.MarkDynamic(); // tells Unity the vertices will change often
+        mMesh.MarkDynamic();
         mMesh.vertices = mGrid;
 
-        mMesh.MarkDynamic(); // tells Unity the vertices will change often
+        mMesh.MarkDynamic();
         mMesh.vertices = mVertices;
         mMesh.triangles = triangles;
         mMesh.RecalculateNormals();
